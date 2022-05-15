@@ -12,6 +12,8 @@ Specifically, given $N$ encoder and decoder layers of the transformer, we remove
 Examples:  
 $N=5$, layer index of removing residual connection and building CLL is 3;  
 $N=6$, layer index of removing residual connection and building CLL is 4;  
+
+BTW, the inner size, number of layers and position of cll should be updated in the codes.
 ## Structure
 ```
 | -- CLL  
