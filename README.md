@@ -65,7 +65,25 @@ We follow [Phillip](https://aclanthology.org/2020.emnlp-main.361.pdf) to use top
 And, we do not use 'merge' strategy in TED.
 ## Scripts
 ```
-#preprocessing:
+#preprocessing_4_tokenize:
+perl mosesdecoder/scripts/tokenizer/tokenizer.perl -threads 16 -l $language >> tokenized/train/${f}
+
+#preprocessing_4_sentencepiece:
+# following fairseq doc.
+echo "learning joint BPE over ${TRAIN_FILES}..."
+python "$SPM_TRAIN" \
+    --input=$TRAIN_FILES \
+    --model_prefix=iwslt.bpe \
+    --vocab_size=$BPESIZE \
+    --character_coverage=1.0 \
+    --model_type=bpe
+python "$SPM_ENCODE" \
+    --model "iwslt.bpe.model" \
+    --output_format=piece \
+    --inputs $filename \
+    --outputs tokenized/bpe/$f
+
+#preprocessing_4_fairseq:
 fairseq-preprocess --joined-dictionary --source-lang input --target-lang output \
 --trainpref iwslt/train \
 --validpref iwslt/valid \
@@ -98,7 +116,11 @@ fairseq-generate iwlst-bin/baseline --gen-subset test \
 --beam 4 --remove-bpe sentencepiece > iwslt/predict/seed_1/test.txt
 
 #post-preprocessing:
+# after separating files
 # employ moses(https://github.com/moses-smt/mosesdecoder) to detokenize
+perl $DETOKENIZER -l $tgt < iwslt/result_$method/$src'_'$tgt/test.$tgt > iwslt/result_$method/$src'-'$tgt.detokenized.txt
+
 # calculate results by sacrebleu (https://github.com/mjpost/sacreBLEU)
+sacrebleu iwslt/ref/$src'_'$tgt/test.detokenized.$tgt --tok $tok -w 4 < iwslt/result_$method/$src'-'$tgt.detokenized.txt >> $method'_'$direction.sacrebleu
 
 ```
