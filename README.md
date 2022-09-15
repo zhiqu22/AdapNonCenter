@@ -1,5 +1,6 @@
 # Central Language-aware Layer
-This is the codes & scripts of paper Adapting to Non-Centered Languages for Zero-shot Multilingual Translation  
+This is the codes & scripts of paper Adapting to Non-Centered Languages for Zero-shot Multilingual Translation(https://arxiv.org/pdf/2209.04138.pdf)
+
 There are two types of proposed method as following,
 ## Full CLL (FCLL)
 Namely, all decoder layers of Transformer have constructed CLL.
@@ -16,6 +17,7 @@ $N=6$, layer index of removing residual connection and building CLL is 4;
 BTW, the inner size, number of layers and position of cll should be updated in the codes.
 ## Structure
 ```
+| -- result.xlsx // detailed results of our main experiments
 | -- CLL  
   | -- data  
     | -- __init__.py  
