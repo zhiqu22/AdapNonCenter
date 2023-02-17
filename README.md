@@ -56,6 +56,10 @@ Note2: you need to change the hyperparameters including layer number, inner size
 ### IWSLT17
 We take IWSLT17 from [MMCR4NLP](https://arxiv.org/abs/1710.01025)  
 We merge all dataset of different languages together.
+
+Reminder for reproduction:  
+The results of IWSLT17 reported in the paper have some errors since we calculated the bleu scores by un-detokenized ref file.  
+But it does not influence the comparison from different models involved in this work.  
 ### OPUS-100
 We merge all dataset of different languages together as [Zhang et al. 2020](https://aclanthology.org/2020.acl-main.148.pdf).
 ### Square
